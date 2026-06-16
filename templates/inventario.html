@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventario</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    {% include 'sidebar.html' %}
+    <div class="main-content">
+        <h1><img src="{{ url_for('static', filename='icons/inventario.png') }}" alt="Inventario"> Inventario</h1>
+        <form method="GET" action="{{ url_for('inventario') }}" class="filter-form">
+            <div class="form-group">
+                <input type="text" name="titulo" placeholder="Título" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="text" name="descripcion" placeholder="Descripción" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="text" name="codigo" placeholder="Código" class="form-control">
+            </div>
+            <div class="form-group">
+                <select name="tipo_producto" class="form-control">
+                    <option value="">Tipo de producto</option>
+                    {% for categoria in categorias %}
+                    <option value="{{ categoria['Nombre_Categoria'] }}">{{ categoria['Nombre_Categoria'] }}</option>
+                    {% endfor %}
+                </select>
+            <button type="submit">Filtrar</button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Título</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Categoría</th>
+                    <th>Ubicación</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in productos %}
+                <tr>
+                    <td>{{ producto.codigo }}</td>
+                    <td>{{ producto.nombre_producto }}</td>
+                    <td>{{ producto.descripcion }}</td>
+                    <td>{{ producto.precio }}</td>
+                    <td>{{ producto.cantidad_stock }}</td>
+                    <td>{{ producto.nombre_categoria }}</td>
+                    <td>{{ producto.ubicacion }}</td>
+                    <td>
+                        <a href="{{ url_for('editar_producto', codigo=producto['codigo']) }}" class="btn btn-warning">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+                        <button onclick="descontinuarProducto({{ producto['codigo'] }})" class="btn btn-danger">
+                            <i class="fas fa-trash-alt"></i> Descontinuar
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-4">
+        <!-- Nuevo cuadro de post-it para mostrar el listado de categorías -->
+        <div class="post-it">
+            <h4>Listado de Categorías</h4>
+            <ul class="list-group">
+                {% for categoria in categorias %}
+                    <li class="list-group-item">{{ categoria.ID_Categoria }} - {{ categoria.Nombre_Categoria }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <script>
+        function descontinuarProducto(codigo) {
+            if (confirm('¿Estás seguro de que deseas descontinuar este producto?')) {
+                fetch(`/productos/descontinuar/${codigo}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Producto descontinuado exitosamente');
+                        location.reload();
+                    } else {
+                        alert('Error al descontinuar el producto');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

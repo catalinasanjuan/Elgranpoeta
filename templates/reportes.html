@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reportes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> 
+</head>
+<body>
+    {% include 'sidebar.html' %}
+    <div class="main-content">
+        <h1><img src="{{ url_for('static', filename='icons/reportes.png') }}" alt="Reportes"> Reportes</h1>
+        <div class="report-form">
+            <label for="report-type">Buscar </label>
+            <select id="report-type" onchange="mostrarReporte(this.value)">
+                <option value="reporte_inventario">Reporte de Inventario</option>
+                <option value="reporte_valoracion_bodegas">Reporte de Valoración de Bodegas</option>
+                <option value="reporte_stock">Reporte de Stock y Estado de Productos</option>
+            </select>
+            <button type="button" onclick="generarReporte()">Generar</button>
+            <button type="button" onclick="imprimirReporte()">Imprimir</button><img src="{{ url_for('static', filename='icons/impresora.png') }}" alt="Impresora">
+        </div>
+        <div id="report-container">
+            <div id="reporte_inventario" class="reporte">
+                <h1>Reporte de Inventario</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre del Producto</th>
+                            <th>Cantidad en Stock</th>
+                            <th>Categoría</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in reporte_inventario %}
+                        <tr>
+                            <td>{{ item.Nombre_Producto }}</td>
+                            <td>{{ item.Cantidad }}</td>
+                            <td>{{ item.Nombre_Categoria }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div id="reporte_valoracion_bodegas" class="reporte">
+                <h1>Reporte de Valoración de Bodegas</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre de la Bodega</th>
+                            <th>Puntuación</th>
+                            <th>Comentario</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in reporte_valoracion_bodegas %}
+                        <tr>
+                            <td>{{ item.Nombre_Bodega }}</td>
+                            <td>{{ item.Puntuacion }}</td>
+                            <td>{{ item.Comentario }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div id="reporte_stock" class="reporte">
+                <h1>Reporte de Stock y Estado de Productos</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre del Producto</th>
+                            <th>Cantidad en Stock</th>
+                            <th>Estado del Producto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in reporte_stock %}
+                        <tr>
+                            <td>{{ item.Nombre_Producto }}</td>
+                            <td>{{ item.Cantidad }}</td>
+                            <td>{{ item.Descripcion_Estado }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='scripts/scripts.js') }}"></script>
+    <script>
+        function mostrarReporte(reportType) {
+            const reportes = document.querySelectorAll('.reporte');
+            reportes.forEach(reporte => {
+                reporte.style.display = reporte.id === reportType ? 'block' : 'none';
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            mostrarReporte('reporte_inventario');
+        });
+    </script>
+</body>
+</html>

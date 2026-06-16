@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Bodega</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    {% include 'sidebar.html' %}
+    <div class="main-content">
+        <h1><img src="{{ url_for('static', filename='icons/bodegas.png') }}" alt="Bodegas"> Editar Bodega</h1>
+        <form id="formEditarBodega" method="POST" action="{{ url_for('editar_bodega', nombre_bodega=bodega['Nombre_Bodega']) }}">
+            <div class="form-group">
+                <label for="nombreBodega">Nombre de la Bodega</label>
+                <input type="text" class="form-control" id="nombreBodega" name="nombre" value="{{ bodega['Nombre_Bodega'] }}" required>
+            </div>
+            <div class="form-group">
+                <label for="capacidadBodega">Capacidad</label>
+                <input type="number" class="form-control" id="capacidadBodega" name="capacidad" value="{{ bodega['Capacidad'] }}" required>
+            </div>
+            <div class="form-group">
+                <label for="calleBodega">Calle</label>
+                <input type="text" class="form-control" id="calleBodega" name="calle" value="{{ bodega['Calle'] }}" required>
+            </div>
+            <div class="form-group">
+                <label for="numeroBodega">Número</label>
+                <input type="text" class="form-control" id="numeroBodega" name="numero" value="{{ bodega['Numero'] }}" required>
+            </div>
+            <div class="form-group">
+                <label for="ciudadBodega">Ciudad</label>
+                <input type="text" class="form-control" id="ciudadBodega" name="ciudad" value="{{ bodega['Ciudad'] }}" required>
+            </div>
+            <div class="form-group">
+                <label for="regionBodega">Región</label>
+                <input type="text" class="form-control" id="regionBodega" name="region" value="{{ bodega['Region'] }}" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            <a href="{{ url_for('bodegas') }}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

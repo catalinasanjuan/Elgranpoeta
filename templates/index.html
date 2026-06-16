@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Librería El Gran Poeta</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> 
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <!-- FullCalendar CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" rel="stylesheet">
+        <!-- FullCalendar JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+        <!-- Incluyendo el archivo calendario.js -->
+    <script src="{{ url_for('static', filename='scripts/calendario.js') }}"></script>
+</head>
+<body>
+    {% include 'sidebar.html' %}
+    <div class="main-content">
+        <h1>Librería El Gran Poeta</h1>
+        <div class="dashboard">
+            <div class="dashboard-item">
+                <div class="item-content">
+                    <div class="icon">
+                        <img src="{{ url_for('static', filename='icons/users.png') }}" alt="Usuarios en línea" class="index-image"></div>
+                
+                    <div class="info">
+                        <p>Usuarios en línea</p>
+                        <p class="number">1</p>
+                    </div>
+                </div>
+            </div>
+            <div class="dashboard-item">
+                <div class="item-content">
+                    <div class="icon"><img src="{{ url_for('static', filename='icons/emails.png') }}" alt="Correos recientes" class="index-image"></div>
+                    <div class="info">
+                        <p>Correos recientes</p>
+                        <p>5 Correos sin leer</p>
+                    </div>
+                </div>
+            </div>
+            <div class="dashboard-item">
+                <div class="item-content">
+                    <div class="icon"><img src="{{ url_for('static', filename='icons/events.png') }}" alt="Eventos" class="index-image"></div>
+                    <div class="info">
+                        <p>Eventos</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="charts">
+        <div class="chart-item">
+            <h2>Entrada y salida de productos</h2>
+            <canvas id="chart1"></canvas>
+        </div>
+        <div class="chart-item">
+            <h2>Año 2024 v/s Año 2023</h2>
+            <canvas id="chart2"></canvas>
+        </div>
+        <div class="calendar">
+            <h2>Calendario</h2>
+            <div id="calendar"></div>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Librería El Gran Poeta</p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='scripts/index.js') }}"></script>
+</body>
+</html>

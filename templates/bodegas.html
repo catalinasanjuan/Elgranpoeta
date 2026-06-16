@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Bodegas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> 
+</head>
+<body>
+    {% include 'sidebar.html' %}
+    <div class="main-content">
+        <h1><img src="{{ url_for('static', filename='icons/bodegas.png') }}" alt="Bodegas"> Bodegas</h1>
+        <div class="filter-form">
+            <select id="nombre_bodega">
+                <option value="">Seleccionar Bodega</option>
+                {% for bodega in bodegas %}
+                <option value="{{ bodega.nombre_bodega }}">{{ bodega.nombre_bodega }}</option>
+                {% endfor %}
+            </select>
+            <button onclick="verBodega()">Ver Bodega</button>
+            <button onclick="abrirModal('agregarBodegaModal')">Agregar Bodega</button>
+            <button onclick="abrirModal('agregarProductoModal')">Agregar Producto</button>
+            <button onclick="moverProducto()">Mover Producto</button>
+            <button onclick="abrirAjustes()">Ajustes</button>
+        </div>
+        <div id="bodega-list">
+            <!-- Aquí se actualizará el listado de bodegas -->
+        </div>
+    </div>
+    <a href="{{ url_for('index') }}">Volver a Inicio</a>
+
+    <!-- Modales -->
+    <div id="agregarBodegaModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModal('agregarBodegaModal')">&times;</span>
+            <h2>Agregar Bodega</h2>
+            <form id="formAgregarBodega">
+                <input type="text" id="nombreNuevaBodega" placeholder="Nombre">
+                <input type="number" id="capacidadNuevaBodega" placeholder="Capacidad">
+                <input type="text" id="calleNuevaBodega" placeholder="Calle">
+                <input type="text" id="numeroNuevaBodega" placeholder="Número">
+                <input type="text" id="ciudadNuevaBodega" placeholder="Ciudad">
+                <input type="text" id="regionNuevaBodega" placeholder="Región">
+                <button type="button" onclick="agregarBodega()">Agregar</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="agregarProductoModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModal('agregarProductoModal')">&times;</span>
+            <h2>Agregar Producto</h2>
+            <form id="formAgregarProducto">
+                <input type="text" id="nombreNuevoProducto" placeholder="Nombre del Producto">
+                <input type="number" id="cantidadNuevoProducto" placeholder="Cantidad">
+                <input type="text" id="ubicacionNuevoProducto" placeholder="Ubicación">
+                <input type="number" step="0.01" id="precioNuevoProducto" placeholder="Precio">
+                <input type="text" id="descripcionNuevoProducto" placeholder="Descripción"> <!-- Nuevo campo de descripción -->
+                <button type="button" onclick="agregarProducto()">Agregar</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='scripts/bodegas.js') }}"></script>
+    <script>
+    function abrirModal(modalId) {
+        document.getElementById(modalId).style.display = 'block';
+    }
+
+    function cerrarModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+    </script>
+</body>
+</html>

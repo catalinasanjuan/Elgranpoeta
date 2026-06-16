@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Producto</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    {% include 'sidebar.html' %}
+    <div class="main-content">
+        <h1><img src="{{ url_for('static', filename='icons/inventario.png') }}" alt="Editar Producto"> Editar Producto</h1>
+        <form method="POST" action="{{ url_for('editar_producto', codigo=producto['codigo']) }}">
+            <div class="form-group">
+                <label for="nombre_producto">Nombre del Producto:</label>
+                <input type="text" class="form-control" id="nombre_producto" name="nombre_producto" value="{{ producto['nombre_producto'] }}" required>
+            </div>
+            <div class="form-group">
+                <label for="descripcion">Descripción:</label>
+                <input type="text" class="form-control" id="descripcion" name="descripcion" value="{{ producto['descripcion'] }}" required>
+            </div>
+            <div class="form-group">
+                <label for="precio">Precio:</label>
+                <input type="number" class="form-control" id="precio" name="precio" value="{{ producto['precio'] }}" required>
+            </div>
+            <div class="form-group">
+                <label for="cantidad_stock">Cantidad en Stock:</label>
+                <input type="number" class="form-control" id="cantidad_stock" name="cantidad_stock" value="{{ producto['cantidad_stock'] }}" required>
+            </div>
+            <div class="form-group">
+                <label for="nombre_categoria">Categoría:</label>
+                <input type="text" class="form-control" id="nombre_categoria" name="nombre_categoria" value="{{ producto['nombre_categoria'] }}" required>
+            </div>
+            <div class="form-group">
+                <label for="ubicacion">Ubicación:</label>
+                <input type="text" class="form-control" id="ubicacion" name="ubicacion" value="{{ producto['ubicacion'] }}" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            <a href="{{ url_for('inventario') }}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

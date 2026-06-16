@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Rastreo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> 
+    <script src="https://maps.googleapis.com/maps/api/js?key=TU_API_KEY&callback=initMap" async defer></script>
+    <script src="{{ url_for('static', filename='scripts/rastreo.js') }}"></script>
+</head>
+<body>
+    {% include 'sidebar.html' %}
+    <div class="main-content">
+        <h1><img src="{{ url_for('static', filename='icons/rastreo.png') }}" alt="Rastreo"> Rastreo</h1>
+        <p>Rastreo en tiempo real de los productos</p>
+        <div class="container">
+            <div class="filter-form">
+                <select id="producto">
+                    <option value="">Seleccione Producto...</option>
+                    {% for producto in productos %}
+                    <option value="{{ producto.nombre_producto }}">{{ producto.nombre_producto }}</option>
+                    {% endfor %}
+                </select>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Ubicación</th>
+                            <th>Precio</th>
+                        </tr>
+                    </thead>
+                    <tbody id="producto-list">
+                        <!-- Aquí se insertarán las filas con JavaScript -->
+                    </tbody>
+                </table>
+                <button type="button" onclick="moverProducto()">Mover</button>
+                <button type="button" onclick="actualizarProducto()">Actualizar</button>
+                <button type="button" onclick="guardarProducto()">Guardar</button>
+            </div>
+            <div id="map"></div>
+        </div>
+        <a href="{{ url_for('index') }}">Volver a Inicio</a>
+    </div>
+</body>
+</html>

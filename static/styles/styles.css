@@ -1,0 +1,379 @@
+/* @font-face {
+    font-family: 'RundeWienProUnic';
+    src: url('../fonts/RundeWienProUnic-Regular.woff2') format('woff2'),
+         url('../fonts/RundeWienProUnic-Regular.woff') format('woff'),
+         url('../fonts/RundeWienProUnic-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+} */
+
+
+body {
+    font-family: 'RundeWienProUnic', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    background-color: #f5f5f5; /* Fondo */
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #e5e5e5; /* Fondo de la barra lateral */
+    height: 100vh;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    top: 0;
+}
+
+.sidebar .nav {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar .nav-item {
+    margin-bottom: 20px;
+}
+
+.sidebar .nav-link {
+    text-decoration: none;
+    color: #ffffff; /* Color del texto */
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border-radius: 5px;
+    background-color: #666666; /* Fondo del botón */
+    transition: background-color 0.3s, color 0.3s;
+    font-weight: bold; /* Hace que el texto sea negrita */
+    font-size: 18px; /* Ajusta el tamaño de la fuente */
+}
+
+.sidebar .nav-link.active {
+    background-color: #007acc; /* Fondo del enlace activo */
+    color: #ffffff; /* Color del texto */
+}
+
+.sidebar .nav-link:hover {
+    background-color: #444444; /* Fondo del enlace al pasar el ratón */
+    color: #ffffff; /* Color del texto */
+}
+
+.sidebar .nav-link i {
+    margin-right: 10px;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+h1 {
+    display: flex;
+    align-items: center;
+    font-size: 42px; /* Incrementar tamaño de la fuente del título */
+    color: #333333; /* Asegurar buen contraste del texto */
+}
+
+h1 img {
+    width: 60px; /* Incrementar tamaño de la imagen */
+    height: 60px; /* Incrementar tamaño de la imagen */
+    margin-right: 15px; /* Aumentar espacio entre la imagen y el texto */
+}
+
+.filter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filter-form input, .filter-form select {
+    padding: 5px;
+    font-size: 14px;
+    width: 180px;
+}
+
+.filter-form button {
+    padding: 5px 10px; /* Ajusta el espacio interior (padding) según sea necesario */
+    font-size: 14px; /* Ajusta el tamaño de la fuente según sea necesario */
+    cursor: pointer;
+    background-color: #666666; /* Cambia el color de fondo */
+    border: 2px solid #333333; /* Añade un borde oscuro */
+    color: #ffffff; /* Cambia el color del texto */
+    border-radius: 5px; /* Añade un borde redondeado */
+    font-weight: bold; /* Añade negrita al texto */
+    transition: background-color 0.3s, color 0.3s; /* Añade una transición suave para los cambios de color */
+    margin-top: 10px; /* Agrega un margen superior para separar el botón del campo select */
+}
+
+.filter-form button:hover {
+    background-color: #333333; /* Cambia el color de fondo al pasar el ratón por encima */
+    color: #ffffff; /* Cambia el color del texto al pasar el ratón por encima */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #cccccc; /* Color del borde */
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #cccccc; /* Fondo del encabezado */
+}
+
+tr:nth-child(even) {
+    background-color: #e5e5e5; /* Fondo de las filas pares */
+}
+
+.dashboard {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.dashboard-item {
+    background-color: #cccccc; /* Fondo del elemento del tablero */
+    border-radius: 8px;
+    padding: 20px;
+    width: 30%;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.dashboard-item .item-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.dashboard-item .icon {
+    margin-bottom: 10px;
+}
+
+.dashboard-item .icon img {
+    width: 50px;
+}
+
+.dashboard-item .info {
+    font-size: 18px;
+}
+
+.dashboard-item .number {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.charts {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.chart-item {
+    width: 30%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.chart-item h2 {
+    margin-bottom: 10px;
+}
+
+.chart-item canvas {
+    width: 100%;
+    height: 200px;
+}
+
+.calendar {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#calendar {
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+#map {
+    width: 90%;
+    height: 90px;
+    background-color: #cccccc; /* Fondo del mapa */
+    margin-top: 20px;
+}
+
+/* Estilos para el modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Estilos para la página de inicio de sesión */
+.login-background {
+    background: url('../styles/library_background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.login-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    max-width: 400px;
+    margin: auto;
+}
+
+.login-container h1 {
+    margin-bottom: 30px;
+    font-size: 24px;
+}
+
+.login-container input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.login-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007acc; /* Fondo del botón */
+    border: none;
+    color: #ffffff; /* Color del texto */
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.login-container button:hover {
+    background-color: #666666; /* Fondo del botón al pasar el ratón */
+}
+
+.login-container a {
+    color: #007acc; /* Color del enlace */
+    text-decoration: none;
+}
+
+.login-container a:hover {
+    text-decoration: underline;
+}
+
+/* Ajustes específicos para la página de reportes */
+.report-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.report-container img {
+    width: 180px; /* Ajusta el tamaño de la imagen */
+    height: auto; /* Mantiene la proporción */
+    margin-bottom: 20px;
+}
+
+.report-container form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.report-container .form-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.report-container .form-group input,
+.report-container .form-group select {
+    width: 180px; /* Asegura que los inputs y selects sean del mismo ancho que la imagen */
+    height: 40px; /* Ajusta la altura de los inputs y selects */
+    padding: 5px;
+    font-size: 14px;
+}
+
+.report-container .form-group button {
+    height: 40px; /* Ajusta la altura del botón */
+    padding: 5px 10px; /* Ajusta el espacio interior del botón */
+    font-size: 14px;
+    cursor: pointer;
+    background-color: #666666; /* Cambia el color de fondo del botón */
+    border: 2px solid #333333; /* Añade un borde oscuro */
+    color: #ffffff; /* Cambia el color del texto del botón */
+    border-radius: 5px; /* Añade un borde redondeado */
+    font-weight: bold; /* Añade negrita al texto del botón */
+    transition: background-color 0.3s, color 0.3s; /* Añade una transición suave para los cambios de color */
+}
+
+.report-container .form-group button:hover {
+    background-color: #333333; /* Cambia el color de fondo del botón al pasar el ratón por encima */
+    color: #ffffff; /* Cambia el color del texto del botón al pasar el ratón por encima */
+}
+/* Estilos para las imágenes con animación */
+.index-image {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.index-image:hover {
+    transform: scale(1.1); /* Aumenta el tamaño de la imagen */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Añade una sombra */
+}
+
+.post-it {  /* Estilos para el post-it */
+    background-color: #FFE083; /* Fondo del post-it */
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+.post-it h4 {
+    margin-top: 0;
+}

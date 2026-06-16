@@ -1,0 +1,72 @@
+http://127.0.0.1:5000/index
+http://127.0.0.1:5000/inventario
+http://127.0.0.1:5000/bodegas
+http://127.0.0.1:5000/reportes
+http://127.0.0.1:5000/rastreo
+
+
+http://127.0.0.1:5000/
+
+python app.py
+
+password123
+
+
+
+python3 app.py
+
+
+#bussiness_logic
+def modificar_producto(codigo, data):
+    print(data)
+    conn = None
+    cursor = None
+    data_access.modificar_producto(codigo, data['nombre_producto'], data['descripcion'], data['precio'], 3, 1)  
+    return True
+
+
+#data_access
+    def modificar_producto(self, codigo, nombre, descripcion, precio, categoria, estado):
+        query = """
+        UPDATE producto
+        SET Nombre_Producto = %s, Descripcion = %s, Precio = %s, Categoria_FK = %s, Estado_FK = %s
+        WHERE ID_Producto = %s
+        """
+        self.cursor.execute(query, (nombre, descripcion, precio, categoria, estado, codigo))
+        self.db.commit()
+
+
+1	Literatura
+2	Ciencias
+3	Arte
+4	Historia
+5	Tecnología
+6	Filosofía
+7	Biología
+8	Matemáticas
+9	Física
+10	Química
+
+
+#bussiness_logic
+def editar_bodega(nombre, data):
+    try:
+        bodega = data_access.obtener_bodega_por_nombre(nombre)
+        if bodega:
+            data_access.editar_bodega(nombre, data['nombre'], data['capacidad'], data['calle'], data['numero'], data['ciudad'], data['region'])
+            return True
+        return False
+    except Exception as e:
+        print(f"Error al modificar bodega: {e}")
+        return False
+
+#data_access
+    def modificar_bodega(self, nombre, nuevo_nombre, capacidad, calle, numero, ciudad, region):
+        query = """
+        UPDATE direccion d
+        JOIN bodega b ON b.Direccion_FK = d.ID_Direccion
+        SET d.Calle = %s, d.Numero = %s, d.Ciudad = %s, d.Region = %s, b.Nombre_Bodega = %s, b.Capacidad = %s
+        WHERE b.Nombre_Bodega = %s
+        """
+        self.cursor.execute(query, (calle, numero, ciudad, region, nuevo_nombre, capacidad, nombre))
+        self.db.commit()
