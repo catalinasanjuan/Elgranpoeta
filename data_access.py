@@ -3,11 +3,21 @@ import mysql.connector
 class DataAccess:
     def __init__(self, db_config):
         self.db_config = db_config
-        self.db = mysql.connector.connect(**db_config)
-        self.cursor = self.db.cursor(dictionary=True)
+        self.db = None
+        self.cursor = None
+
+    def _connect(self):
+        if self.db is None:
+            try:
+                self.db = mysql.connector.connect(**self.db_config)
+                self.cursor = self.db.cursor(dictionary=True)
+            except mysql.connector.Error as err:
+                print(f"DB connection error: {err}")
+                raise
 
     def obtener_usuario_por_nombre(self, nombre_usuario):
         query = "SELECT * FROM usuario WHERE Nombre_Usuario = %s"
+        self._connect()
         self.cursor.execute(query, (nombre_usuario,))
         return self.cursor.fetchone()
 
@@ -22,12 +32,14 @@ class DataAccess:
         JOIN categoria c ON p.Categoria_FK = c.ID_Categoria
         JOIN bodega b ON s.Bodega_FK = b.ID_Bodega
         """
+        self._connect()
         self.cursor.execute(query)
         productos = self.cursor.fetchall()
         return productos
 
     def obtener_categorias(self):
         query = "SELECT * FROM categoria"
+        self._connect()
         self.cursor.execute(query)
         return self.cursor.fetchall()
 
@@ -37,6 +49,7 @@ class DataAccess:
         FROM bodega b
         JOIN direccion d ON b.Direccion_FK = d.ID_Direccion
         """
+        self._connect()
         self.cursor.execute(query)
         bodegas = self.cursor.fetchall()
         return bodegas
@@ -71,13 +84,15 @@ class DataAccess:
         VALUES (%s, %s, %s)
         """
         try:
+            self._connect()
             self.cursor.execute(direccion_query, (calle, numero, ciudad, region))
             direccion_id = self.cursor.lastrowid
             self.cursor.execute(bodega_query, (nombre, direccion_id, capacidad))
             self.db.commit()
         except mysql.connector.Error as err:
             print(f"Error al agregar bodega: {err}")
-            self.db.rollback()
+            if self.db:
+                self.db.rollback()
 
     def modificar_bodega(self, nombre, nuevo_nombre, capacidad, calle, numero, ciudad, region):
         query = """
@@ -86,6 +101,7 @@ class DataAccess:
         SET d.Calle = %s, d.Numero = %s, d.Ciudad = %s, d.Region = %s, b.Nombre_Bodega = %s, b.Capacidad = %s
         WHERE b.Nombre_Bodega = %s
         """
+        self._connect()
         self.cursor.execute(query, (calle, numero, ciudad, region, nuevo_nombre, capacidad, nombre))
         self.db.commit()
 
@@ -96,6 +112,7 @@ class DataAccess:
             INSERT INTO producto (Nombre_Producto, Descripcion, Precio, Categoria_FK, Estado_FK)
             VALUES (%s, %s, %s, 1, 1)
             """
+            self._connect()
             self.cursor.execute(producto_query, (nombre, descripcion, precio))
             producto_id = self.cursor.lastrowid
 
@@ -107,7 +124,8 @@ class DataAccess:
             self.db.commit()
         except mysql.connector.Error as err:
             print(f"Error al agregar producto: {err}")
-            self.db.rollback()
+            if self.db:
+                self.db.rollback()
 
 
     def obtener_reporte_inventario(self):
@@ -117,6 +135,7 @@ class DataAccess:
         JOIN producto p ON s.Producto_FK = p.ID_Producto
         JOIN categoria c ON p.Categoria_FK = c.ID_Categoria
         """
+        self._connect()
         self.cursor.execute(query)
         reporte_inventario = self.cursor.fetchall()
         return reporte_inventario
@@ -127,6 +146,7 @@ class DataAccess:
         FROM valoracion v
         JOIN bodega b ON v.Bodega_FK = b.ID_Bodega
         """
+        self._connect()
         self.cursor.execute(query)
         reporte_valoracion_bodegas = self.cursor.fetchall()
         return reporte_valoracion_bodegas
@@ -138,6 +158,7 @@ class DataAccess:
         JOIN producto p ON s.Producto_FK = p.ID_Producto
         JOIN estadoproducto e ON p.Estado_FK = e.ID_Estado
         """
+        self._connect()
         self.cursor.execute(query)
         reporte_stock = self.cursor.fetchall()
         return reporte_stock
@@ -145,6 +166,7 @@ class DataAccess:
     def descontinuar_producto(self, codigo):
         try:
             delete_product_query = "DELETE FROM producto WHERE ID_Producto = %s"
+            self._connect()
             self.cursor.execute(delete_product_query, (codigo,))
             self.db.commit()
             return self.cursor.rowcount > 0
@@ -161,6 +183,7 @@ class DataAccess:
         SET Nombre_Producto = %s, Descripcion = %s, Precio = %s, Cantidad_Stock = %s, Categoria_FK = %s, Ubicacion = %s
         WHERE ID_Producto = %s
         """
+        self._connect()
         self.cursor.execute(query, (nombre, descripcion, precio, cantidad_stock, categoria, ubicacion, codigo))
         self.db.commit()
 
@@ -179,6 +202,7 @@ class DataAccess:
             WHERE p.ID_Producto = %s
             """
             try:
+                self._connect()
                 self.cursor.execute(query, (codigo,))
                 producto = self.cursor.fetchone()
                 return producto
