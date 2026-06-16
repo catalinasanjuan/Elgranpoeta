@@ -1,9 +1,8 @@
 # business_logic.py
-from config import db_config
 from data_access import DataAccess
 from models import Bodega, Producto
 
-data_access = DataAccess(db_config)
+data_access = DataAccess()
 
 
 def obtener_usuario_por_nombre(nombre_usuario):

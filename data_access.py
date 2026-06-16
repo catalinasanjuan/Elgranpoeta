@@ -1,7 +1,8 @@
 import mysql.connector
+from config import db_config
 
 class DataAccess:
-    def __init__(self, db_config):
+    def __init__(self):
         self.db_config = db_config
         self.db = None
         self.cursor = None
@@ -9,6 +10,8 @@ class DataAccess:
     def _connect(self):
         if self.db is None:
             try:
+                print("DB HOST:", self.db_config.get("host"))
+                print("DB DATABASE:", self.db_config.get("database"))
                 self.db = mysql.connector.connect(**self.db_config)
                 self.cursor = self.db.cursor(dictionary=True)
             except mysql.connector.Error as err:
@@ -62,13 +65,9 @@ class DataAccess:
         WHERE b.Nombre_Bodega = %s
         """
         try:
-            conn = mysql.connector.connect(**self.db_config)
-            cursor = conn.cursor(dictionary=True)
-            cursor.execute(query, (nombre,))
-            result = cursor.fetchone()
-            cursor.close()
-            conn.close()
-            return result
+            self._connect()
+            self.cursor.execute(query, (nombre,))
+            return self.cursor.fetchone()
         except mysql.connector.Error as err:
             print(f"Error: {err}")
             return None

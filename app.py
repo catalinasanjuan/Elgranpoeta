@@ -2,12 +2,11 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from functools import wraps
 import business_logic
 from data_access import DataAccess
-from config import db_config
 import hashlib
 import os
 
 # Crear una instancia de DataAccess
-data_access = DataAccess(db_config)
+data_access = DataAccess()
 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'clave-temporal-dev')
